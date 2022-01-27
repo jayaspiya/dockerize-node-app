@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<body>
+
+    <div id="app" class="flex flex-center flex-col">
+        <header class="flex justify-between mx-20">
+            <h1 class="text-3xl font-bold">{{ message }}</h1>
+            <input placeholder="Search by Username" @keyup.enter="onEnter" v-model="user">
+        </header>
+        <section class="flex flex-wrap justify-center">
+            <div class="max-w-lg rounded shadow-lg m-5" v-for="data in result">
+                <img class="object-contain h-48 w-96" :src=data.image>
+                <div class="px-6 py-4">
+                    <div class="font-bold text-xl mb-2">{{ data.user }}</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        var myObject = new Vue({
+          el: '#app',
+          data: {
+            user: "",
+            message: 'Dockerize Node App',
+            result: []
+          },
+          methods:{
+            getData(user){
+              fetch("/post/"+user).then((result)=>{
+                result.json().then(data =>{
+                    this.result = data
+                })
+            })
+            },
+            onEnter: function() {
+               this.getData(this.user)
+               this.user = ""
+            }
+          },
+          created(){
+            fetch("/post").then((result)=>{
+                result.json().then(data =>{
+                    this.result = data
+                })
+            })
+          }
+        })
+    </script>
+
+</body>
+
+</html>
