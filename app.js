@@ -6,7 +6,7 @@ const controller = require('./utils/controller.js')
 const path = require('path')
 
 const app = express()
-const connection = "mongodb://localhost:27017/dna"
+const connection = "mongodb://mongo:27017/dna"
 const port = 3000
 
 app.use(cors())
